@@ -1,15 +1,23 @@
 const express = require('express');
+const bodyParser = require('body-parser')
+
+const setting = require("./utils/setting");
+
 const app = express();
+
+//cnfig bodyParser
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+// app.use(express.json());
 
 //라우터 설정
 const users = require('./router/users.js');
-users(app);
+app.use("/users", users(app));
 
-
-
-const server = app.listen(4000, function() {
+const server = app.listen(setting.port, function() {
     //서버 시작하면 해야할 작업들..
     console.log('Start listening to server');
+    console.log('Url : localhost:4000');
 });
 
 //서버 종료시 처리해야하는 것들.
